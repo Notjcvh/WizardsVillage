@@ -6,32 +6,34 @@ using UnityEngine;
 
 public class AbilityList : ScriptableObject
 {
-    public List<Abilites> abilityList;
-    public List<Abilites> activeAbilities;
+    public List<Ability> totalAbilityList;
+    public List<Ability> unlockedAbilityList;
+    public List<Ability> activeAbilities;
     public AbilityHandler AbilityHandler;
-    void Start()
+    public void UnlockAbility(Ability ability)
     {
-        foreach (var ability in activeAbilities)
+        if (!unlockedAbilityList.Contains(ability))
         {
-            ability.isActive = true;
+            unlockedAbilityList.Add(ability);
         }
     }
-    public void AddAbilityToPool(Abilites ability)
-    {
-        abilityList.Add(ability);
-    }
 
-    public void ChangeAbility(Abilites ability, int activeablitySlot)
+    public void ChangeAbility(Ability ability, int activeablitySlot)
     {
         if (ability.isActive || !ability.canUse)
+        { 
+            Debug.Log("Ability can not be switched");
             return;
+        }
         else
+        {
+            activeAbilities[activeablitySlot].isActive = false;
             activeAbilities[activeablitySlot] = ability;
+            foreach (var item in activeAbilities)
+            {
+                item.isActive = true;  
+            }
+        }
+            
     }
-}
-
-[System.Serializable]
-public class AbilitySlot
-{
-    public Abilites ability;
 }

@@ -15,20 +15,15 @@ public class PlayerInput : MonoBehaviour
     
     public bool attack { get; private set; }
     public bool secondaryAttack { get; private set; }
-    public bool activateQAbilityy { get; private set; }
+    public bool activateQAbility { get; private set; }
     public bool activateWAbility { get; private set; }
     public bool activateEAbility { get; private set; }
     public bool activateRAbility { get; private set; }
 
+    public List<bool> sequencedInputs;
 
     private void Update()
     {
-        ///  <summary>
-        ///  All Input configurations can be found in the Input Manager.
-        ///  Edit --> Project Settings --> Input Manager
-        ///  All Inputs will be labeled by number of where they appear
-        /// </summary>
-
 
         //Pausing
         pause = Input.GetButtonDown("Pause");
@@ -39,12 +34,14 @@ public class PlayerInput : MonoBehaviour
         secondaryAttack = Input.GetMouseButtonDown(1);
 
         //Water Special 
-        activateQAbilityy = Input.GetButtonDown("Q");
+        activateQAbility = Input.GetButtonDown("Q");
 
         activateWAbility = Input.GetButtonDown("W");
 
         activateEAbility = Input.GetButtonDown("E");
 
         activateRAbility = Input.GetButtonDown("R");
+
+        sequencedInputs = new List<bool> {attack, secondaryAttack, activateQAbility, activateWAbility, activateEAbility, activateRAbility};
     }
 }

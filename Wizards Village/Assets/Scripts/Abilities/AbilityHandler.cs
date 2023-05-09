@@ -4,60 +4,53 @@ using UnityEngine;
 
 public class AbilityHandler : MonoBehaviour
 {
-    public List<Abilites> abilityList;
-    public AbilityList abilityPool;
-    public List<AbilityCooldown> abilityCooldowns;
+    public List<Ability> activeAbilities;
+    public List<float> cooldownTimers;
     private PlayerInput playerInput;
+    public AbilityList abilityList;
 
     private void Awake()
     {
         //Find player and grabs its input
         playerInput = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInput>();
         //grabs all abilites in the active abilites
-        abilityPool.activeAbilities = abilityList;
+        cooldownTimers = new List<float>(activeAbilities.Count);
+
+        activeAbilities = abilityList.activeAbilities;
+
         //Gets all abilites in the ability list and assigns it a corresponding abilities cooldown
-        for (int i = 0; i < abilityList.Count; i++)
+        for (int i = 0; i < activeAbilities.Count; i++)
         {
-            if (abilityList[i] == null)
-                return;
-            else
-                abilityList[i].abilityCooldown = abilityCooldowns[i];
-                abilityCooldowns[i].icon = abilityList[i].icon;
+            cooldownTimers[i] = 0f;
         }
     }
     void Update()
     {
 #       region inputs
-        if (playerInput.activateQAbilityy && abilityList[0] != null)
+        if (playerInput.activateQAbility && activeAbilities[0] != null)
         {
-            abilityList[0].TriggerAbility();
+            activeAbilities[0].Activate();
         }
-        if (playerInput.activateWAbility && abilityList[1] != null)
+        if (playerInput.activateWAbility && activeAbilities[1] != null)
         {
-            abilityList[1].TriggerAbility();
+            activeAbilities[1].Activate();
         }
-        if (playerInput.activateEAbility && abilityList[2] != null)
+        if (playerInput.activateEAbility && activeAbilities[2] != null)
         {
-            abilityList[2].TriggerAbility();
+            activeAbilities[2].Activate();
         }
-        if (playerInput.activateRAbility && abilityList[3] != null)
+        if (playerInput.activateRAbility && activeAbilities[3] != null)
         {
-            abilityList[3].TriggerAbility();
+            activeAbilities[3].Activate();
         }
-        if (playerInput.attack && abilityList[4] != null)
+        if (playerInput.attack && activeAbilities[4] != null)
         {
-            abilityList[4].TriggerAbility();
+            activeAbilities[4].Activate();
         }
-        if (playerInput.secondaryAttack && abilityList[5] != null)
+        if (playerInput.secondaryAttack && activeAbilities[5] != null)
         {
-            abilityList[5].TriggerAbility();
+            activeAbilities[5].Activate();
         }
         #endregion 
-    }
-
-    public void UpdateAbilites(Abilites ability, int abilitySlot)
-    {
-        abilityList[abilitySlot] = abilityPool.activeAbilities[abilitySlot];
-        abilityList[abilitySlot].abilityCooldown = abilityCooldowns[abilitySlot];
     }
 }
